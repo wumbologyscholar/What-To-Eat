@@ -1,3 +1,5 @@
+# todo - update the README
+
 # Build a program to decide what a group wants to do at that
 # moment (ex. Watch tv, study, etc), where they want to eat, etc…,
 
