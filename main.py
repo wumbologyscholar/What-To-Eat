@@ -63,7 +63,6 @@ with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
 
 
 
-
 # REST OF TKINTER STUFF
 # window = tk.Tk()
 # greeting = tk.Label(text="This is my first label.")
