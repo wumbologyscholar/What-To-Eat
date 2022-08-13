@@ -9,23 +9,40 @@ import smtplib
 from ascii_art import title
 
 
-def check_email():  # todo - fix bug if user enters invalid email, now messing up with valid email too
+def choose_random_meal():
+    # call the api, and store the resulting meal, its recipe, and original link
+    response = requests.get(url="https://www.themealdb.com/api/json/v1/1/random.php")
+    response.raise_for_status()
+
+    meal_choice = response.json()["meals"][0]["strMeal"]
+    meal_recipe = response.json()["meals"][0]["strInstructions"]
+    meal_link = response.json()["meals"][0]["strSource"]
+
+
+def check_email():  # todo - fix bug if user enters invalid email, now messing up with valid email too, add test to make sure input email is type(str)
     email_address = ""
-    while email_address == "" or email_address != type(str) or "@" not in email_address:
-        email_address = input("\nWhat is your email? (I'll email you the result! :) )")
-        print("This is not a valid email address. Please try again.")
+    valid_email = ""
+
+    while valid_email != "ok":
+        email_address = input("\nWhat is your email? (I'll email you the result!)\n")
+        if email_address == "" or "@" not in email_address:
+            print("This is not a valid email address. Please try again.")
+        else:
+            valid_email = "ok"
     return email_address
 
 
-def send_email():
-    my_email = "one.hundred.days.of.code.14@gmail.com"
-    my_password = "sftqimzzilghrpab"
+def send_email():  # todo - fix bug
+    from_email = "one.hundred.days.of.code.14@gmail.com"
+    from_email_pass = "sftqimzzilghrpab"
+    user_email = check_email()
+    email_message = f"Subject: Here is your chosen meal!\n{meal_choice}\n{meal_recipe}" #want to also send {meal_link}, but doesn't work
 
     with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
         connection.starttls()
-        connection.login(user=my_email, password=my_password)
-        connection.sendmail(from_addr=my_email, to_addrs=user_email,
-                            msg=f"Subject: Here is your chosen meal!.\n\n{meal_choice}\n\n{meal_recipe}\n\n{meal_link}")
+        connection.login(user=from_email, password=from_email_pass)
+        connection.sendmail(from_addr=from_email, to_addrs=user_email,
+                            msg=email_message)
     print("All done, check your email for the results! Bon Apetit!")
 
 
@@ -37,24 +54,9 @@ want_food_rec = input("Welcome to P's Indecision Machine.\n\nHaving"
                       " some help deciding?\nPlease type 'y' or 'n': \n")
 
 if want_food_rec.lower() == "y":
-    meal_info = []
+    choose_random_meal()
 
-    # call the api, and store the resulting meal, its recipe, and original link
-    response = requests.get(url="https://www.themealdb.com/api/json/v1/1/random.php")
-    response.raise_for_status()
-
-    meal_choice = response.json()["meals"][0]["strMeal"]
-    meal_recipe = response.json()["meals"][0]["strInstructions"]
-    meal_link = response.json()["meals"][0]["strSource"]
-
-    meal_info.append(meal_choice)
-    meal_info.append(meal_recipe)
-    meal_info.append(meal_link)
-
-
-    # ask for the user's email address to send the meal info to
-    user_email = check_email()
-
+    # ask for user email , check format, send email
     send_email()
 
     # Eventually:
