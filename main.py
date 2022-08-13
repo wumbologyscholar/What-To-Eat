@@ -1,59 +1,70 @@
 # todo - update the README
 
-# Build a program to decide what a group wants to do at that
-# moment (ex. Watch tv, study, etc), where they want to eat, etc…,
+# Build a program to decide what P wants to cook for dinner, spit out a random recipe
+# from the API and email it, the recipe, and the original link (if available)
 
 # import tkinter as tk
 import requests
 import smtplib
-
-# Steps:
-# ask x #of people what they want to eat
-num_of_people = input("Welcome to the Indecision Machine.\nHaving"
-                      " trouble deciding what to eat for dinner?\nWant"
-                      " some help deciding?\nEnter the number of people dining tonight: ")
+from ascii_art import title
 
 
-
-# call the api that many times, and then get those 4 results back and store them,
-response = requests.get(url="http://www.boredapi.com/api/activity/")
-response.raise_for_status()
-
-activity = response.json()["activity"]
-
-
-# then tally the votes from the 4 people and whatever gets more votes is the winner
-# (but also include a setting to just pick a random choice from the 4 in the case that
-    #  the group still can't decide). Ask for a gmail address (eventually add in support
-#  for other email services)
-
-user_email = ""
-user_password = ""
-while user_email == "":
-    user_email = input("\nWhat is your email? (I'll email you the result! :) )\nNote: Only Gmail addresses are accepted: ")
-    if user_email != type(str) or "@" not in user_email:
+def check_email():
+    email_address = ""
+    while email_address == "" or email_address != type(str) or "@" not in email_address:
+        email_address = input("\nWhat is your email? (I'll email you the result! :) )")
         print("This is not a valid email address. Please try again.")
-
-while user_password == "":
-    user_password = input(
-        "\nWhat is your password?\nNote: For Gmail addresses, you will have to generate an app password: ")
-    if user_password != type(str):
-        print("This is not a valid email address. Please try again.")
+        return email_address
 
 
-#  Then email the choice to that email with some kind of message and possibly a picture
-    #  if possible.
-my_email = "one.hundred.days.of.code.14@gmail.com"
-my_password = "sftqimzzilghrpab"
+def send_email():
+    my_email = "one.hundred.days.of.code.14@gmail.com"
+    my_password = "sftqimzzilghrpab"
 
-with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
-    connection.starttls()
-    connection.login(user=my_email, password=my_password)
-    connection.sendmail(from_addr=my_email, to_addrs=user_email, msg=f"Subject: Here is your chosen activity!.\n\n{activity}")
+    with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
+        connection.starttls()
+        connection.login(user=my_email, password=my_password)
+        connection.sendmail(from_addr=my_email, to_addrs=user_email,
+                            msg=f"Subject: Here is your chosen meal!.\n\n{meal_choice}\n\n{meal_recipe}\n\n{meal_link}")
+    print("All done, check your email for the results! Bon Apetit!")
 
 
-#  Eventually make it available as both web app with a tkinter gui (some kind of big picture
-    #  logo thing in the middle),in addition to this email CLI verison.
+print(title)
+
+# ask the user if they'd like a meal recommendation
+want_food_rec = input("Welcome to P's Indecision Machine.\n\nHaving"
+                      " trouble deciding what to cook for dinner?\nWant"
+                      " some help deciding?\nPlease type 'y' or 'n': \n")
+
+if want_food_rec.lower() == "y":
+    meal_info = []
+
+    # call the api, and store the resulting meal, its recipe, and original link
+    response = requests.get(url="https://www.themealdb.com/api/json/v1/1/random.php")
+    response.raise_for_status()
+
+    meal_choice = response.json()["meals"][0]["strMeal"]
+    meal_recipe = response.json()["meals"][0]["strInstructions"]
+    meal_link = response.json()["meals"][0]["strSource"]
+
+    meal_info.append(meal_choice)
+    meal_info.append(meal_recipe)
+    meal_info.append(meal_link)
+
+
+    # ask for the user's email address to send the meal info to
+    user_email = check_email()
+
+    send_email()
+
+    # Eventually:
+        # make it available as both web app with a tkinter gui (some kind of big picture
+            #  logo thing in the middle),in addition to this email CLI verison.
+        # use beautifulsoup or some other webscraping thing to go to the strSource
+            # and grab the picture of the recipe and include it in the email to the perosn
+
+else:
+    pass
 
 
 
@@ -79,4 +90,5 @@ with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
 
 
 #Things to remember:
-# for the email to work, the security settings kinda have to be turned off, so have the recipient make a quick new fake email just to use for this, and then generate an app password
+# for the email to work, the security settings kinda have to be turned off,
+# so have the recipient make a quick new fake email just to use for this, and then generate an app password
