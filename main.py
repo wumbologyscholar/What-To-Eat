@@ -9,12 +9,12 @@ import smtplib
 from ascii_art import title
 
 
-def check_email():
+def check_email():  # todo - fix bug if user enters invalid email, now messing up with valid email too
     email_address = ""
     while email_address == "" or email_address != type(str) or "@" not in email_address:
         email_address = input("\nWhat is your email? (I'll email you the result! :) )")
         print("This is not a valid email address. Please try again.")
-        return email_address
+    return email_address
 
 
 def send_email():
