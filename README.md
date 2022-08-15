@@ -1,16 +1,15 @@
------Title-----
-Welcome to the What To Eat Project, aka, P's Indecision Machine. 
+# Welcome to the What To Eat Project, aka, P's Indecision Machine. 
 
 This is a command-line program, written in Python3 and utilizing TheMealDB API, to allow
 groups of any size to each be assigned a randomly chosen recipe/ meal to cook, and then
 email each cook their meal selection.
 
------Description-----
+## -----Description-----
 First, the group is prompted to enter the number of individuals planning to cook dishes,
 then, each cook is asked to input their name and email address, and the program assigns
 each cook a random recipe, which is then emailed to them.
 
------Project Inspiration-----
+## -----Project Inspiration-----
 The motivation behind this project was someone in my life who, at times, has trouble
 deciding what to eat. She has a real love of cooking, so using principles of OOP learned
 from my introductory class in CS, as well as some obtained from my own individual research,
@@ -20,8 +19,7 @@ cooking (especially with friends) even further.
 I built this project alone from scratch, but would love to collaborate if someone would like :)
 
 
------How to Install and Run the Project-----
-# todo - how to run this program on another person's machine?
+## -----How to Install and Run the Project-----
 A relatively recent version of Python3 is needed to run this program (this was built using 3.10),
 as well as the packages "requests" and "smtplib" are also needed (in addition to the ascii art
 located in the ascii_art.py file). To send the email containing the meal recipe, the from email
@@ -30,7 +28,7 @@ gmail from email address, you will have to turn on 2-Factor Authentication, and 
 "App Password" (the option to generate this only appears after turning on 2FA) to use in the program
 where it asks for "from_email_pass".
 
------Challenges Faced-----
+## -----Challenges Faced-----
 I initially wrote a working version of this program using linear programming, but realized
 that, due to there being multiple attributes about each cook I wanted to be able to access
 (name, email, meal, recipe, list of all cooks), as well the lack of being able to use this
@@ -38,9 +36,10 @@ program with friends, I pivoted, and decided to incorporate object-oriented prin
 fix these issues. Additionally, I am relatively new to the field of programming, so any
 feedback/ constructive criticism is very welcome! :)
 
------To Do-----
+## -----To Do-----
 Future updates I plan to include are:
 -updates to this README
+    -include instructions on how to run this program on another person's machine?
 
 -a GUI (possibly using tkinter or a similar python package)
 
