@@ -1,5 +1,3 @@
-# todo - update the README
-
 # Build a program to decide what P (+ any number of extra friends) wants to cook for dinner, spit out a random recipe
 # from the API and email it, the recipe, and the original link (if available) to each person
 
@@ -47,7 +45,8 @@ class Cook:
 
         from_email = "p.indecision.machine@gmail.com"
         from_email_pass = "cuxnzqpcjcflnyur"
-        email_message = f"Subject: Here is your chosen meal, {self._cook_name}!\n{self._meal}\n{self._recipe}"  # want to also send {meal_link}, but doesn't work
+        email_message = f"Subject: Here is your chosen meal, {self._cook_name}!\n{self._meal}\n{self._recipe}"
+        # want to also send {meal_link}, but doesn't work
 
         with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
             connection.starttls()
@@ -94,7 +93,7 @@ if want_food_rec.lower() == "y":
         current_cook_email = input("What is this cook's email address? (I'll email you the result!):\n")
 
         # check to make sure email is correct format
-        while "@" not in current_cook_email:  # todo - eventually beef up the validation of email addresses (make sure it's a string, case sensitive)
+        while "@" not in current_cook_email:
             print("This is not a valid email address. Please try again.")
             current_cook_email = input("What is this cook's email address?:\n")
 
@@ -112,9 +111,3 @@ if want_food_rec.lower() == "y":
 
 else:
     print("Ok, no problem. Have a great day!")
-
-"""Eventually:
-    make it available as both web app with a tkinter gui (some kind of big picture
-         logo thing in the middle),in addition to this email CLI verison.
-    use beautifulsoup or some other webscraping thing to go to the strSource
-        and grab the picture of the recipe and include it in the email to the person"""
