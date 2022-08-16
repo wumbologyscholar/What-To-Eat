@@ -1,4 +1,4 @@
-# Welcome to the What To Eat Project, aka, P's Indecision Machine. 
+# Welcome to What To Eat, aka, P's Indecision Machine. 
 
 This is a command-line program, written in Python3 and utilizing TheMealDB API, to allow
 groups of any size to each be assigned a randomly chosen recipe/ meal to cook, and then

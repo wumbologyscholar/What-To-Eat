@@ -1,6 +1,3 @@
-# Build a program to decide what P (+ any number of extra friends) wants to cook for dinner, spit out a random recipe
-# from the API and email it, the recipe, and the original link (if available) to each person
-
 import requests
 import smtplib
 from ascii_art import title
